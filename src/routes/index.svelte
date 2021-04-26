@@ -48,8 +48,8 @@
   {title: 'Herringbone - 6', slug: 'herringbone-6', mode: 'fill', colors: 3, maxStroke: 2, maxScale: 16, maxSpacing: [0, 0], width: 40, height: 40, vHeight: 0, tags: ['herringbone','lines','linie'], path: "<path d='M10 0L0 10v10l10-10 10 10V10zm10 20v10l10-10 10 10V20L30 10z'/>~<path d='M10-20L0-10V0l10-10L20 0v-10L10-20zM20 0v10L30 0l10 10V0L30-10 20 0zM10 20L0 30v10l10-10 10 10V30L10 20zm10 20v10l10-10 10 10V40L30 30 20 40z'/>", creationDate: '13 Nov 2020'},
    ];
 
-  let newPosts;// = posts;
-  import { themeStore, langStore, webStore } from "./stores.js";
+   let newPosts;// = posts;
+  import { themeStore, langStore } from "./stores.js";
   import dayjs from "dayjs";
   // import de from "dayjs/locale/de";
   import relativeTime from "dayjs/plugin/relativeTime";
@@ -231,12 +231,15 @@
     }
   }
 
-  let website = $webStore || "https://pattern.monster";
-  let title = "Pattern Monster - " + strings.title;
-  let url = website;
-  let keywords = strings.keywords;
-  let desc = strings.description;
-  let image = website + "/TwitterBG2.png";
+  let page = "index";
+  let { title, url, keywords, desc, image, versions } = Constants.pageDetails(page);
+
+  // let website = $webStore || "https://pattern.monster";
+  // let title = "Pattern Monster - " + strings.title;
+  // let url = website;
+  // let keywords = strings.keywords;
+  // let desc = strings.description;
+  // let image = website + "/TwitterBG2.png";
 
   let lightColors = [
     "hsla(0,0%,100%,1)",
@@ -619,7 +622,7 @@
   }
 </style>
 
-<svelte:head>
+<!-- <svelte:head>
   <title>{title}</title>
   <link rel="canonical" href={url} />
   <link rel="alternate" href="https://pattern.monster" hreflang="en" />
@@ -628,19 +631,43 @@
   <meta name="description" content={desc} />
   <meta name="keywords" content={keywords} />
 
-  <!-- Open Graph / Facebook -->
   <meta property="og:url" content={url} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={desc} />
   <meta property="og:image" content={image} />
 
-  <!-- Twitter -->
   <meta name="twitter:url" content={url} />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={desc} />
   <meta name="twitter:image" content={image} />
   <meta name="twitter:image:src" content={image} />
   <meta name="twitter:image:alt" content={title} />
+</svelte:head> -->
+
+<svelte:head>
+	<title>{title}</title>
+	<link rel="canonical" href={url} />
+  {#if versions}
+    {#each versions as version}
+      <link rel="alternate" href={version.website} hreflang={version.lang} />
+    {/each}
+  {/if}
+	<meta name="description" content={desc} />
+	<meta name="keywords" content={keywords} />
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:url" content={url} />
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content={desc} />
+	<meta property="og:image" content={image} />
+
+	<!-- Twitter -->
+	<meta name="twitter:url" content={url} />
+	<meta name="twitter:title" content={title} />
+	<meta name="twitter:description" content={desc} />
+	<meta name="twitter:image" content={image} />
+	<meta name="twitter:image:src" content={image} />
+	<meta name="twitter:image:alt" content={title} />
 </svelte:head>
 
 <svelte:window on:keydown={handleKeydown} />
