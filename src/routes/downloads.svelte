@@ -1,4 +1,3 @@
-<!--<script context="module" ✂prettier:content✂="CiAgZXhwb3J0IGZ1bmN0aW9uIHByZWxvYWQoeyBwYXJhbXMsIHF1ZXJ5IH0pIHsKICAgIHJldHVybiB0aGlzLmZldGNoKAogICAgICBgaHR0cHM6Ly9wdXJwbGUtZmVhdGhlci0xNjJkLmNhdGNoc3BpZGVyMjAwMi53b3JrZXJzLmRldi9gCiAgICApCiAgICAgIC50aGVuKChyKSA9PiByLmpzb24oKSkKICAgICAgLnRoZW4oKHgpID0+IHguaGVsbG8uc3BsaXQoIiwiKSkKICAgICAgLnRoZW4oKG5ld1Bvc3RzKSA9PiB7CiAgICAgICAgcmV0dXJuIHsgbmV3UG9zdHMgfTsKICAgICAgfSk7CiAgfQo=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=">{}</script>-->
 <script>
   import Footer from "../components/Footer.svelte";
   // import { webStore } from "./stores.js";
@@ -109,6 +108,8 @@
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 
   const diffDays = Math.round(Math.abs((new Date() - new Date(2020, 11, 19)) / oneDay));
+
+  let imagePrefix = "https://giguom.pages.dev/pattern.monster/images/";
 </script>
 
 <svelte:head>
@@ -144,7 +145,7 @@
     {#each newPosts as post, i}
       {#if i < diffDays}
         <div class="elementGrid">
-          <img src={"downloads/" + post.toLowerCase().replace(/ /g, "-") + "_Twitter.png"} alt={post} title={post} />
+          <img loading="lazy" src={imagePrefix + "downloads/" + post.toLowerCase().replace(/ /g, "-") + "_Twitter.png"} alt={post} title={post} />
           <h2>{post} patterns</h2>
           <a
             class="gumroad-button"
