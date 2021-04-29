@@ -431,7 +431,7 @@
     grid-auto-flow: column;
     /* opacity: 0.75; */
     color: var(--gray-text);
-    gap: 0.75em;
+    gap: 0.5em;
     place-content: start;
   }
   
