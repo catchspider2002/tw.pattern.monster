@@ -70,9 +70,9 @@
   dayjs.extend(relativeTime);
 
 
-  // dayjs().locale("de").format();
+// dayjs().locale("de").format();
   
-  let searchBar;
+let searchBar;
   let w;
   $: placeholderSearch =
     w > 640
@@ -233,13 +233,6 @@
 
   let page = "index";
   let { title, url, keywords, desc, image, versions } = Constants.pageDetails(page);
-
-  // let website = $webStore || "https://pattern.monster";
-  // let title = "Pattern Monster - " + strings.title;
-  // let url = website;
-  // let keywords = strings.keywords;
-  // let desc = strings.description;
-  // let image = website + "/TwitterBG2.png";
 
   let lightColors = [
     "hsla(0,0%,100%,1)",
@@ -620,29 +613,36 @@
       grid-template-columns: auto;
     }
   }
+  .subscribe-waitlist{
+    padding: 0 0.5rem;
+    /* max-width: 840px; */
+    background-color: var(--secondary-color);
+    border-radius: var(--border-radius);
+    font-size: 0.85em;
+    display: grid;
+    grid-auto-flow: row;
+    /* justify-items: center; */
+    margin: -1em auto 3em;
+    width: 716px;
+    /* width: auto; */
+    }
+  .subscribe-waitlist span
+  {
+    padding: 1em 8px 0.5em;
+    font-weight: 600;
+  }
+    
+  @media (max-width: 804px) {
+  .subscribe-waitlist{
+    width: auto;
+    }
+  .subscribe-waitlist span
+  {
+    padding: 1em 8px 0.75em;
+  }
+  }
+
 </style>
-
-<!-- <svelte:head>
-  <title>{title}</title>
-  <link rel="canonical" href={url} />
-  <link rel="alternate" href="https://pattern.monster" hreflang="en" />
-  <link rel="alternate" href="https://de.pattern.monster" hreflang="de" />
-  <link rel="alternate" href="https://pl.pattern.monster" hreflang="pl" />
-  <meta name="description" content={desc} />
-  <meta name="keywords" content={keywords} />
-
-  <meta property="og:url" content={url} />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={desc} />
-  <meta property="og:image" content={image} />
-
-  <meta name="twitter:url" content={url} />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={desc} />
-  <meta name="twitter:image" content={image} />
-  <meta name="twitter:image:src" content={image} />
-  <meta name="twitter:image:alt" content={title} />
-</svelte:head> -->
 
 <svelte:head>
 	<title>{title}</title>
@@ -704,7 +704,12 @@
     </div>
   </div>
   <p class="container mx-auto">{strings.description} {strings.description2} {strings.description3}</p>
-
+  
+  <div class="subscribe-waitlist">
+    <span>Are you looking to integrate patterns with your new or exiting projects? Be the first to know when API access opens up!</span>
+    <script async data-uid="f146eb0e2c" src="https://crafty-artist-9316.ck.page/f146eb0e2c/index.js"></script>
+  </div>
+  
   <div class="outerGrid">
     <div class="searchBox">
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
