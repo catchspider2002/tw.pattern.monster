@@ -24,7 +24,7 @@
   let patternsCount = ptrns.length
   let count = 0;
   // console.log(ptrns.length)
-  import { onMount, afterUpdate, tick } from "svelte";
+  import { onMount, afterUpdate, tick, onDestroy } from "svelte";
   export let posts =  [
     {title: 'Fale - 1', slug: 'waves-1', mode: 'stroke', colors: 5, maxStroke: 6.5, maxScale: 16, maxSpacing: [0, 10], width: 120, height: 80, vHeight: 20, tags: ['waves','curves','fale'], path: "<path d='M-50.129 12.685C-33.346 12.358-16.786 4.918 0 5c16.787.082 43.213 10 60 10s43.213-9.918 60-10c16.786-.082 33.346 7.358 50.129 7.685'/>~<path d='M-50.129 32.685C-33.346 32.358-16.786 24.918 0 25c16.787.082 43.213 10 60 10s43.213-9.918 60-10c16.786-.082 33.346 7.358 50.129 7.685'/>~<path d='M-50.129 52.685C-33.346 52.358-16.786 44.918 0 45c16.787.082 43.213 10 60 10s43.213-9.918 60-10c16.786-.082 33.346 7.358 50.129 7.685'/>~<path d='M-50.129 72.685C-33.346 72.358-16.786 64.918 0 65c16.787.082 43.213 10 60 10s43.213-9.918 60-10c16.786-.082 33.346 7.358 50.129 7.685'/>", creationDate: '13 Nov 2020'},
   {title: 'Fale - 2', slug: 'waves-2', mode: 'stroke', colors: 5, maxStroke: 5.5, maxScale: 16, maxSpacing: [0, 10], width: 80, height: 80, vHeight: 20, tags: ['waves','curves','fale'], path: "<path d='M-20.133 4.568C-13.178 4.932-6.452 7.376 0 10c6.452 2.624 13.036 5.072 20 5 6.967-.072 13.56-2.341 20-5 6.44-2.659 13.033-4.928 20-5 6.964-.072 13.548 2.376 20 5s13.178 5.068 20.133 5.432'/>~<path d='M-20.133 24.568C-13.178 24.932-6.452 27.376 0 30c6.452 2.624 13.036 5.072 20 5 6.967-.072 13.56-2.341 20-5 6.44-2.659 13.033-4.928 20-5 6.964-.072 13.548 2.376 20 5s13.178 5.068 20.133 5.432'/>~<path d='M-20.133 44.568C-13.178 44.932-6.452 47.376 0 50c6.452 2.624 13.036 5.072 20 5 6.967-.072 13.56-2.341 20-5 6.44-2.659 13.033-4.928 20-5 6.964-.072 13.548 2.376 20 5s13.178 5.068 20.133 5.432'/>~<path d='M-20.133 64.568C-13.178 64.932-6.452 67.376 0 70c6.452 2.624 13.036 5.072 20 5 6.967-.072 13.56-2.341 20-5 6.44-2.659 13.033-4.928 20-5 6.964-.072 13.548 2.376 20 5s13.178 5.068 20.133 5.432'/>", creationDate: '13 Nov 2020'},
@@ -70,21 +70,41 @@
   dayjs.extend(relativeTime);
 
 
-// dayjs().locale("de").format();
-  
-let searchBar;
+
+  // dayjs().locale("de").format();
+
+  let searchBar;
   let w;
   $: placeholderSearch =
     w > 640
       ? strings.searchPattern + " (" + strings.pressFocus + ")"
       : strings.searchPattern;
 
+  let homeTimeout;
+  let homeShow = false;
+
   onMount(async () => {
     // console.log("onMount")
     searchBar = document.getElementById("search");
     // await tick();
     // newPosts = posts;
+
+    homeTimeout = setTimeout(() => {
+      homeShow = true;
+
+      let firstName = document.querySelector('[aria-label="First Name"]');
+      firstName.setAttribute("placeholder", strings.firstName);
+
+      let email = document.querySelector('[aria-label="Email Address"]');
+      email.setAttribute("placeholder", strings.email2);
+
+      let sendButton = document.querySelector(".subscribe-waitlist button > span");
+      sendButton.innerHTML = strings.waitlist
+
+    }, 400);
   });
+
+  onDestroy(() => clearTimeout(homeTimeout));
 
   afterUpdate(() => {
     // console.log("afterUpdate")
@@ -370,7 +390,7 @@ let searchBar;
     gap: 2em;
     align-items: center;
     color: var(--secondary-text-color);
-    /* padding: 2em 0; */
+    margin-top:1em
   }
   .outerPattern {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -413,7 +433,6 @@ let searchBar;
     color: var(--secondary-text-color);
     margin: 0 auto;
     display: grid;
-    /* grid-auto-flow: column; */
     grid-template-columns: auto auto auto auto;
     column-gap: 2em;
     row-gap: 0.5em;
@@ -422,7 +441,6 @@ let searchBar;
   .stats-grid {
     display: grid;
     grid-auto-flow: column;
-    /* opacity: 0.75; */
     color: var(--gray-text);
     gap: 0.5em;
     place-content: start;
@@ -430,20 +448,26 @@ let searchBar;
   
   .outerGrid {
     display: grid;
-    /* width: 100%; */
     grid-auto-flow: column;
     grid-template-columns: auto 1fr auto;
-    /* justify-items: center; */
-    /* place-content: start; */
     place-items: center;
     gap: 1em;
     color: var(--secondary-text-color);
-    padding-bottom: 2em;
+    padding: 1em 0;
+    background-color: var(--pattern-bg);
   }
+  @media (min-width: 640px) {
+  .outerGrid {
+    position: sticky;
+    top: 2.86em;
+    z-index: 1;
+    margin: 0 -2em;
+    padding: 1em 2em;
+  }
+}
   .filterGrid {
     display: grid;
     grid-auto-flow: column;
-    /* justify-items: center; */
     place-content: start;
     place-items: center;
     justify-self: start;
@@ -457,11 +481,9 @@ let searchBar;
     grid-auto-flow: column;
     justify-self: end;
     order: 1;
-    /* gap: 1em; */
   }
   .sortInner {
     display: flex;
-    /* gap: 0; */
     place-items: start;
     align-items: center;
     flex-wrap: nowrap;
@@ -470,7 +492,6 @@ let searchBar;
     /* place-content: end;
     place-items: center; */
     justify-self: end;
-    /* gap: 1em; */
   }
   .sortInner button {
     margin-left: 1em;
@@ -622,7 +643,7 @@ let searchBar;
     display: grid;
     grid-auto-flow: row;
     /* justify-items: center; */
-    margin: -1em auto 3em;
+    margin: -1em auto 2em;
     width: 716px;
     /* width: auto; */
     }
@@ -706,7 +727,7 @@ let searchBar;
   <p class="container mx-auto">{strings.description} {strings.description2} {strings.description3}</p>
   
   <div class="subscribe-waitlist">
-    <span>Are you looking to integrate patterns with your new or exiting projects? Be the first to know when API access opens up!</span>
+    <span>{strings.apiAccess}</span>
     <script async data-uid="f146eb0e2c" src="https://crafty-artist-9316.ck.page/f146eb0e2c/index.js"></script>
   </div>
   
